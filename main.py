@@ -1,71 +1,35 @@
 import tkinter as tk
-from PIL import Image, ImageTk
 import random
-
-root = tk.Tk()
-root.overrideredirect(True)
-root.attributes("-topmost", True)
-
-# load sprite sheet
-sheet = Image.open("Lizard.gif")
-
-# frame size (you must adjust this)
-FRAME_WIDTH = 128
-FRAME_HEIGHT = 128
-
-frames = []
-
-# calculate number of frames in sheet
-sheet_width, sheet_height = sheet.size
-cols = sheet_width // FRAME_WIDTH
-rows = sheet_height // FRAME_HEIGHT
-
-# slice frames from sheet
-for y in range(rows):
-    for x in range(cols):
-        box = (
-            x * FRAME_WIDTH,
-            y * FRAME_HEIGHT,
-            (x + 1) * FRAME_WIDTH,
-            (y + 1) * FRAME_HEIGHT
-        )
-        frame = sheet.crop(box)
-        frames.append(ImageTk.PhotoImage(frame))
-
-label = tk.Label(root)
-label.pack()
-
-# screen size
-screen_w = root.winfo_screenwidth()
-screen_h = root.winfo_screenheight()
-
-x = random.randint(0, screen_w - FRAME_WIDTH)
-y = random.randint(0, screen_h - FRAME_HEIGHT)
+from PIL import Image, ImageTk
 
 dx = 3
 dy = 3
+@@ -8,26 +9,28 @@
+root.overrideredirect(True)
+root.attributes("-topmost", True)
 
-frame_index = 0
+# load image with Pillow
+img = Image.open("Lizard.gif")
+gif = ImageTk.PhotoImage(img)
 
-def update():
-    global x, y, dx, dy, frame_index
+label = tk.Label(root, image=gif)
+label.pack()
 
-    # animate frames
-    label.config(image=frames[frame_index])
-    frame_index = (frame_index + 1) % len(frames)
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
 
-    # move lizard
+x = random.randint(0, screen_width - img.width)
+y = random.randint(0, screen_height - img.height)
+
+def move():
+    global x, y, dx, dy
+
     x += dx
     y += dy
 
-    if x <= 0 or x >= screen_w - FRAME_WIDTH:
+    if x <= 0 or x >= screen_width - img.width:
         dx = -dx
-    if y <= 0 or y >= screen_h - FRAME_HEIGHT:
+    if y <= 0 or y >= screen_height - img.height:
         dy = -dy
 
     root.geometry(f"+{x}+{y}")
-
-    root.after(60, update)
-
-update()
-root.mainloop()
