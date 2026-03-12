@@ -17,7 +17,7 @@ root.attributes("-topmost", True)
 root.wm_attributes("-transparentcolor", "white")
 
 # load gif
-gif = tk.PhotoImage(file="lizard.gif")
+gif = tk.PhotoImage(file="Lizard.gif")
 
 label = tk.Label(root, image=gif, bg="white")
 label.pack()
