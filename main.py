@@ -13,7 +13,7 @@ root.attributes("-topmost", True)
 img = Image.open("Lizard.gif")
 frames = [ImageTk.PhotoImage(frame.copy()) for frame in ImageSequence.Iterator(img)]
 
-label = tk.Label(root, image=frames)
+label = tk.Label(root, image=frames[0])
 label.pack()
 
 screen_width = root.winfo_screenwidth()
