@@ -15,6 +15,7 @@ frames = [ImageTk.PhotoImage(frame.copy()) for frame in ImageSequence.Iterator(i
 
 label = tk.Label(root, image=frames[0])
 label.pack()
+lable.image = frames[0]
 
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
@@ -28,6 +29,7 @@ def update():
     global x, y, dx, dy, frame_index
 
     label.config(image=frames[frame_index])
+    label.image = frames[frame_index]
     frame_index = (frame_index + 1) % len(frames)
     
     x += dx
