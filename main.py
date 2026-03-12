@@ -1,47 +1,34 @@
 import tkinter as tk
-from PIL import Image, ImageTk, ImageSequence
 import random
+
+# movement speed
+dx = 3
+dy = 3
 
 root = tk.Tk()
 
-# remove window border
+# remove window borders
 root.overrideredirect(True)
 
-# always on top
+# keep window above others
 root.attributes("-topmost", True)
 
-# transparent background 
-root.config(bg="white")
+# transparent background
 root.wm_attributes("-transparentcolor", "white")
 
 # load gif
-gif = Image.open("Lizard.gif")
+gif = tk.PhotoImage(file="lizard.gif")
 
-frames = [ImageTk.PhotoImage(frame.copy())
-          for frame in ImageSequence.Iterator(gif)]
-
-label = tk.Label(root, bd=0, bg="white")
+label = tk.Label(root, image=gif, bg="white")
 label.pack()
 
-frame_index = 0
-
 # screen size
-screen_w = root.winfo_screenwidth()
-screen_h = root.winfo_screenheight()
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
 
-x = random.randint(0, screen_w - 200)
-y = random.randint(0, screen_h - 200)
-
-dx = 5
-dy = 0
-
-
-def update_frame():
-    global frame_index
-    label.config(image=frames[frame_index])
-    frame_index = (frame_index + 1) % len(frames)
-    root.after(50, update_frame)
-
+# starting position
+x = random.randint(0, screen_width - gif.width())
+y = random.randint(0, screen_height - gif.height())
 
 def move():
     global x, y, dx, dy
@@ -49,18 +36,15 @@ def move():
     x += dx
     y += dy
 
-    # bounce off edges
-    if x < 0 or x > screen_w - 150:
+    # bounce off screen edges
+    if x <= 0 or x >= screen_width - gif.width():
         dx = -dx
-
-    if y < 0 or y > screen_h - 150:
+    if y <= 0 or y >= screen_height - gif.height():
         dy = -dy
 
     root.geometry(f"+{x}+{y}")
-    root.after(30, move)
+    root.after(20, move)
 
-
-update_frame()
 move()
 
 root.mainloop()
