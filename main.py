@@ -4,7 +4,8 @@ from PIL import Image, ImageTk
 
 dx = 3
 dy = 3
-@@ -8,26 +9,28 @@
+
+root = tk.Tk()
 root.overrideredirect(True)
 root.attributes("-topmost", True)
 
@@ -33,3 +34,7 @@ def move():
         dy = -dy
 
     root.geometry(f"+{x}+{y}")
+    root.after(20, move)
+
+move()
+root.mainloop()
