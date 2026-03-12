@@ -1,6 +1,6 @@
 import tkinter as tk
 import random
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageSequence
 
 dx = 3
 dy = 3
@@ -13,7 +13,7 @@ root.attributes("-topmost", True)
 img = Image.open("Lizard.gif")
 frames = [ImageTk.PhotoImage(frame.copy()) for frame in ImageSequence.Iterator(img)]
 
-label = tk.Label(root, image=gif)
+label = tk.Label(root, image=frames)
 label.pack()
 
 screen_width = root.winfo_screenwidth()
