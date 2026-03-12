@@ -1,5 +1,6 @@
 import tkinter as tk
 import random
+from PIL import Image, ImageTk
 
 dx = 3
 dy = 3
@@ -8,7 +9,9 @@ root = tk.Tk()
 root.overrideredirect(True)
 root.attributes("-topmost", True)
 
-gif = tk.PhotoImage(file="Lizard.gif")
+# load image with Pillow
+img = Image.open("Lizard.gif")
+gif = ImageTk.PhotoImage(img)
 
 label = tk.Label(root, image=gif)
 label.pack()
@@ -16,8 +19,8 @@ label.pack()
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
 
-x = random.randint(0, screen_width - gif.width())
-y = random.randint(0, screen_height - gif.height())
+x = random.randint(0, screen_width - img.width)
+y = random.randint(0, screen_height - img.height)
 
 def move():
     global x, y, dx, dy
@@ -25,9 +28,9 @@ def move():
     x += dx
     y += dy
 
-    if x <= 0 or x >= screen_width - gif.width():
+    if x <= 0 or x >= screen_width - img.width:
         dx = -dx
-    if y <= 0 or y >= screen_height - gif.height():
+    if y <= 0 or y >= screen_height - img.height:
         dy = -dy
 
     root.geometry(f"+{x}+{y}")
