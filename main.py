@@ -11,7 +11,7 @@ root.attributes("-topmost", True)
 
 # load image with Pillow
 img = Image.open("Lizard.gif")
-gif = ImageTk.PhotoImage(img)
+frames = [ImageTk.PhotoImage(frame.copy()) for frame in ImageSequence.Iterator(img)]
 
 label = tk.Label(root, image=gif)
 label.pack()
@@ -22,9 +22,14 @@ screen_height = root.winfo_screenheight()
 x = random.randint(0, screen_width - img.width)
 y = random.randint(0, screen_height - img.height)
 
-def move():
-    global x, y, dx, dy
+frame_index = 0
 
+def update():
+    global x, y, dx, dy, frame_index
+
+    label.config(image=frames[frame_index])
+    frame_index = (frame_index + 1) % len(frames)
+    
     x += dx
     y += dy
 
@@ -34,7 +39,8 @@ def move():
         dy = -dy
 
     root.geometry(f"+{x}+{y}")
-    root.after(20, move)
 
-move()
+    root.after(50, update)
+
+update()
 root.mainloop()
